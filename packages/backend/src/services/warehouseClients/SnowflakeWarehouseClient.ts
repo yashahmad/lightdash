@@ -43,7 +43,7 @@ const normaliseSnowflakeType = (type: string): string => {
     const match = r.exec(type);
     if (match === null) {
         throw new ParseError(
-            `Cannot understand type from Databricks: ${type}`,
+            `Cannot understand type from Snowflake: ${type}`,
             {},
         );
     }
