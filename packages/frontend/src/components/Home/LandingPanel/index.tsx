@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import LinkButton from '../../common/LinkButton';
+import { RefreshServerButton } from '../../RefreshServerButton';
 import LatestDashboards from '../LatestDashboards';
 import LatestSavedCharts from '../LatestSavedCharts';
 import {
@@ -31,8 +32,10 @@ const LandingPanel: FC<Props> = ({ hasSavedChart, userName, projectUuid }) => {
                         data below:
                     </Intro>
                 </WelcomeText>
+                <RefreshServerButton />
+
                 <LinkButton
-                    style={{ height: 40 }}
+                    style={{ marginLeft: 10, height: 40 }}
                     href={`/projects/${projectUuid}/tables`}
                     intent="primary"
                     icon="series-search"
