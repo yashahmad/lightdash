@@ -846,6 +846,7 @@ export type CreateSnowflakeCredentials = {
     account: string;
     user: string;
     password?: string;
+    token?: string;
     privateKey?: string;
     privateKeyPass?: string;
     role: string;

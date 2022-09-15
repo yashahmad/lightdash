@@ -5,6 +5,8 @@ import {
 } from '@lightdash/common';
 import { JSONSchemaType } from 'ajv';
 import { promises as fs } from 'fs';
+import snowflake, { ConnectionOptions } from 'snowflake-sdk';
+import * as Util from 'util';
 import { ajv } from '../../ajv';
 import { Target } from '../types';
 
@@ -108,6 +110,38 @@ const snowflakeSchema: JSONSchemaType<SnowflakeTarget> = {
 export const convertSnowflakeSchema = async (
     target: Target,
 ): Promise<CreateSnowflakeCredentials> => {
+    if (target.authenticator === 'externalbrowser') {
+        const connectionOptions: ConnectionOptions = {
+            account: target.account,
+            username: target.user,
+            authenticator: 'EXTERNALBROWSER',
+            database: target.database,
+            schema: target.schema,
+            warehouse: target.warehouse,
+            role: target.role,
+            clientSessionKeepAlive: target.clientSessionKeepAlive,
+        };
+        const connection = snowflake.createConnection(connectionOptions);
+        // @ts-ignore
+        await Util.promisify(connection.connectAsync)();
+        const context = JSON.parse(connection.serialize());
+        console.log('context', context);
+        console.log('tokenInfo', context.services.sf.tokenInfo);
+        await Util.promisify(connection.destroy)();
+        return {
+            type: WarehouseTypes.SNOWFLAKE,
+            account: target.account,
+            user: target.user,
+            token: context.services.sf.tokenInfo.sessionToken,
+            role: target.role,
+            warehouse: target.warehouse,
+            database: target.database,
+            schema: target.schema,
+            clientSessionKeepAlive: target.client_session_keep_alive,
+            queryTag: target.query_tag,
+        };
+    }
+
     const validate = ajv.compile<SnowflakeTarget>(snowflakeSchema);
     if (validate(target)) {
         const keyfilePath = target.private_key_path;

@@ -125,11 +125,20 @@ export class SnowflakeWarehouseClient implements WarehouseClient {
             });
         }
 
+        let authenticator;
+        if (decodedPrivateKey) {
+            authenticator = 'SNOWFLAKE_JWT';
+        } else if (credentials.token) {
+            authenticator = 'OAUTH';
+        }
+        console.log('authenticator', authenticator);
+        console.log('credentials.token', credentials.token);
         this.connectionOptions = {
             account: credentials.account,
             username: credentials.user,
             password: credentials.password,
-            authenticator: decodedPrivateKey ? 'SNOWFLAKE_JWT' : undefined,
+            token: credentials.token,
+            authenticator,
             privateKey: decodedPrivateKey,
             database: credentials.database,
             schema: credentials.schema,
