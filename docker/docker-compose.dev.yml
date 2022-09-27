@@ -55,3 +55,7 @@ services:
       POSTGRES_PASSWORD: ${PGPASSWORD}
     ports:
       - "5432:${PGPORT}"
+
+  browser:
+    image: browserless/chrome
+    restart: always

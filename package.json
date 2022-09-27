@@ -27,11 +27,11 @@
     "backend-lint": "yarn workspace backend lint",
     "backend-format": "yarn workspace backend format",
     "backend-test": "yarn workspace backend test",
-    "frontend-dev": "yarn workspace frontend start",
-    "frontend-build": "yarn workspace frontend build",
-    "frontend-lint": "yarn workspace frontend lint",
-    "frontend-format": "yarn workspace frontend format",
-    "frontend-test": "yarn workspace frontend test",
+    "frontend-dev": "yarn workspace @lightdash/frontend start",
+    "frontend-build": "yarn workspace @lightdash/frontend build",
+    "frontend-lint": "yarn workspace @lightdash/frontend lint",
+    "frontend-format": "yarn workspace @lightdash/frontend format",
+    "frontend-test": "yarn workspace @lightdash/frontend test",
     "e2e-open": "yarn workspace e2e cypress:open",
     "e2e-run": "yarn workspace e2e cypress:run",
     "e2e-lint": "yarn workspace e2e lint",
@@ -55,8 +55,8 @@
   },
   "lint-staged": {
     "packages/frontend/src/**/*.(ts|tsx|json|css)": [
-      "yarn workspace frontend prettier --write --ignore-unknown",
-      "yarn workspace frontend eslint --fix"
+      "yarn workspace @lightdash/frontend prettier --write --ignore-unknown",
+      "yarn workspace @lightdash/frontend eslint --fix"
     ],
     "packages/backend/src/**/*.(ts|tsx|json)": [
       "yarn workspace backend prettier --write --ignore-unknown",

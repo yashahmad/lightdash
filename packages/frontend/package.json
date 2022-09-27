@@ -1,5 +1,5 @@
 {
-    "name": "frontend",
+    "name": "@lightdash/frontend",
     "version": "0.266.0",
     "private": true,
     "dependencies": {
@@ -25,7 +25,7 @@
         "ace-builds": "^1.4.14",
         "cohere-js": "^1.0.19",
         "dagre": "^0.8.5",
-        "echarts": "^5.3.0",
+        "echarts": "^5.4.0",
         "echarts-for-react": "^3.0.2",
         "fuse.js": "^6.5.3",
         "http-proxy-middleware": "^2.0.3",
