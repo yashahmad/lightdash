@@ -10,6 +10,7 @@ import React, {
     useState,
 } from 'react';
 import { FormState } from 'react-hook-form';
+import { useParams } from 'react-router-dom';
 import * as rudderSDK from 'rudder-sdk-js';
 import {
     CategoryName,
@@ -141,6 +142,7 @@ interface PageData {
     name: PageName;
     category?: CategoryName;
     type?: PageType;
+    params?: Record<string, string>;
 }
 
 interface SectionData {
@@ -192,10 +194,16 @@ export const TrackingProvider: FC<TrackingData> = ({
     );
 
     const getLightdashPageProperties = useCallback(
-        ({ name, category, type = PageType.PAGE }: Partial<PageData> = {}) => ({
+        ({
+            name,
+            category,
+            type = PageType.PAGE,
+            params,
+        }: Partial<PageData> = {}) => ({
             name,
             category,
             type,
+            params,
             hostname: window.location.hostname,
             url: null,
             path: null,
@@ -305,12 +313,33 @@ const NestedTrackingProvider: FC<Partial<TrackingData>> = ({
     </Context.Consumer>
 );
 
+const nonTrackableParamKeys = ['code', 'inviteCode', 'tableId'];
+
+const endsWithUuidRegex = /Uuid$/;
+const useTrackablePageParams = () => {
+    const params = useParams<Record<string, string>>();
+
+    return useMemo(() => {
+        return Object.entries(params).reduce(
+            (acc, [key, value]) =>
+                nonTrackableParamKeys.includes(key)
+                    ? acc
+                    : {
+                          ...acc,
+                          [key.replace(endsWithUuidRegex, 'Id')]: value,
+                      },
+            {},
+        );
+    }, [params]);
+};
+
 export const TrackPage: FC<PageData> = ({ children, ...rest }) => {
     const { page } = useTracking();
+    const validParams = useTrackablePageParams();
 
     useEffect(() => {
-        page(rest);
-    }, [page, rest]);
+        page({ ...rest, params: validParams });
+    }, [page, rest, validParams]);
 
     return (
         <NestedTrackingProvider page={rest}>
