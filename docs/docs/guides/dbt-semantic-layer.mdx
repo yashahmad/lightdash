@@ -1,3 +1,6 @@
+import FindDbtCloudJobs from './assets/find-dbt-cloud-jobs.png';
+import DbtJobUrl from './assets/dbt-job-url-example.png';
+
 # dbt Semantic Layer
 
 By integrating Lightdash with your dbt Semantic Layer, you can consume dbt metrics in real time and you 
@@ -41,13 +44,13 @@ You can generate this at https://cloud.getdbt.com/next/settings and scroll down 
 To fetch your metric definitions, Lightdash needs a job ID from dbt Cloud.  This job should be your production job 
 that compiles your dbt metrics. In your dbt Cloud UI click on "Deploy" -> "Jobs" in the navigation bar:
 
-<img src="assets/find-dbt-cloud-jobs.png" width="400px" />
+<img src={FindDbtCloudJob} width="400px" />
 
 
 Click the job that you'll connect to Lightdash. The job id is the last part of the URL after `/jobs` so in 
 `/jobs/12345` your jobs id would be `12345`.
 
-<img src="assets/dbt-job-url-example.png" width="400px" />
+<img src={DbtJobUrl} width="400px" />
 
 ## Using jinja in the SQL Runner
 
